@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="studentDao" class="com.tgb.dao.StudentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="schoolDao" class="com.tgb.dao.SchoolDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="adviceDao" class="com.tgb.dao.AdviceDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="collegeDao" class="com.tgb.dao.CollegeDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+	<bean id="studentManagerBase" class="com.tgb.manager.StudentManagerImpl">
+		<property name="studentDao" ref="studentDao"></property>
+	</bean>
+	
+	<!-- 此处为代理 -->
+	<bean name="studentManager" parent="transactionProxy">
+		<property name="target" ref="studentManagerBase"></property>
+	</bean>	
+	
+	
+	<bean id="schoolManagerBase" class="com.tgb.manager.SchoolManagerImpl">
+		<property name="schoolDao" ref="schoolDao"></property>
+	</bean>
+	
+	<!-- 此处为代理 -->
+	<bean name="schoolManager" parent="transactionProxy">
+		<property name="target" ref="schoolManagerBase"></property>
+	</bean>	
+	
+	<bean id="adviceManagerBase" class="com.tgb.manager.AdviceManagerImpl">
+		<property name="adviceDao" ref="adviceDao"></property>
+	</bean>
+	
+	<!-- 此处为代理 -->
+	<bean name="adviceManager" parent="transactionProxy">
+		<property name="target" ref="adviceManagerBase"></property>
+	</bean>	
+	
+	
+	<bean id="collegeManagerBase" class="com.tgb.manager.CollegeManagerImpl">
+		<property name="collegeDao" ref="collegeDao"></property>
+	</bean>
+	
+	<!-- 此处为代理 -->
+	<bean name="collegeManager" parent="transactionProxy">
+		<property name="target" ref="collegeManagerBase"></property>
+	</bean>
+</beans>
